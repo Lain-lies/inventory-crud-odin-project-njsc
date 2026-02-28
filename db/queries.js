@@ -15,4 +15,13 @@ async function fetchAllGames() {
 	return rows;
 }
 
+async function fetchDevelopers() {
+	const { rows } = await pool.query(
+		`
+        SELECT name FROM developers;
+        `,
+	);
+	return rows;
+}
+
 module.exports = fetchAllGames;
