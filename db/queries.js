@@ -21,4 +21,8 @@ async function fetchDevelopers() {
 	return rows;
 }
 
+async function insertNewGame(){
+    
+}
+
 module.exports = {fetchAllGames, fetchDevelopers};
