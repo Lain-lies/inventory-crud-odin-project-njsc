@@ -16,12 +16,9 @@ async function fetchAllGames() {
 }
 
 async function fetchDevelopers() {
-	const { rows } = await pool.query(
-		`
-        SELECT name FROM developers;
-        `,
-	);
+	const { rows } = await pool.query("SELECT name FROM developers ORDER BY name;");
+    console.log(rows);
 	return rows;
 }
 
-module.exports = fetchAllGames;
+module.exports = {fetchAllGames, fetchDevelopers};

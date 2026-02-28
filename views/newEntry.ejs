@@ -8,14 +8,65 @@
 	<body>
 		<div>
 			<h2>Add games</h2>
-			<select name="pets" id="pet-select">
-				<option value="dog">Dog</option>
-				<option value="cat">Cat</option>
-				<option value="hamster">Hamster</option>
-				<option value="parrot">Parrot</option>
-				<option value="spider">Spider</option>
-				<option value="goldfish">Goldfish</option>
-			</select>
+			<form>
+				<select name="dev" id="dev">
+					<% developers.forEach(dev => { %>
+						<option value = "<%=dev.name%>"><%=dev.name%></option>
+					<% }); %>
+				</select>
+				<div class = "inputwrapper">
+					<label for="newgame1">
+						<p>Enter names of game:</p>
+						<input name ="newgame1" id="newgame" type="text">
+					</label>
+				</div>
+
+
+				<button type = button id="add-button">+</button>
+				<button type = submit>submit</button>	
+
+			</form>
+
 		</div>
 	</body>
+
+	<script>
+
+		const inputwrapper = document.querySelector(".inputwrapper");
+		const addButton = document.querySelector("#add-button");
+		let counter = 2;
+
+		addButton.addEventListener("click", () => {
+			
+			const input = document.createElement("input");
+			input.name = `newgame${counter}`;
+			input.id = `newgame${counter}`;
+			counter++;
++			inputwrapper.appendChild(input);
+		});
+
+		const form = document.querySelector("form");
+		form.addEventListener("submit", e => {
+			e.preventDefault();
+			const formData = new FormData(form);
+			const dataObject = Object.fromEntries(formData.entries());
+			const arr = Object.values(dataObject);
+			const [dev, ...rest] = arr;
+			const cleanData = {dev, rest};
+			fetch('http://localhost:8080/new-entry', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json; charset=UTF-8'
+			},
+			body: JSON.stringify(cleanData)
+			})
+			.then(response => response.json())
+			.then(json => console.log(json))
+			.catch(error => console.error('Error:', error));
+		});
+
+		
+
+		
+	</script>
 </html>

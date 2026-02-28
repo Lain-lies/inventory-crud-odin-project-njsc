@@ -1,4 +1,4 @@
-const {fetchAllGames} = require("../db/queries");
+const {fetchAllGames, fetchDevelopers} = require("../db/queries");
 
 async function getIndexController(req, res) {
 	const data = await fetchAllGames();
@@ -6,6 +6,7 @@ async function getIndexController(req, res) {
 }
 
 async function getNewEntryController(req, res){
-	const data = await fetch
+	const data = await fetchDevelopers();
+	res.render("newEntry", {developers: data});
 }
-module.exports = getIndexController;
+module.exports = {getIndexController, getNewEntryController};
