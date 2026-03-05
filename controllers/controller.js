@@ -9,4 +9,8 @@ async function getNewEntryController(req, res){
 	const data = await fetchDevelopers();
 	res.render("newEntry", {developers: data});
 }
+
+function postNewEntryController(req, res){{
+
+}}
 module.exports = {getIndexController, getNewEntryController};
