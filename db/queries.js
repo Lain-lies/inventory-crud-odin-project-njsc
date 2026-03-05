@@ -21,8 +21,17 @@ async function fetchDevelopers() {
 	return rows;
 }
 
-async function insertNewGame(){
+async function isDevExist(value){
+    
+    const {rows} = await pool.query(
+    `
+        SELECT name FROM developers
+        WHERE name LIKE '$1';
+    `
+    , [value])
+    
+    return Object.keys(rows).length === 0 ? false : true;
     
 }
 
-module.exports = {fetchAllGames, fetchDevelopers};
+module.exports = {fetchAllGames, fetchDevelopers, isDevExist};
