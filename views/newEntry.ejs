@@ -15,9 +15,9 @@
 					<% }); %>
 				</select>
 				<div class = "inputwrapper">
-					<label for="newgame1">
+					<label for="newgame">
 						<p>Enter names of game:</p>
-						<input name ="newgame1" id="newgame" type="text">
+						<input name ="games[]" id="newgame" type="text">
 					</label>
 				</div>
 
@@ -40,7 +40,6 @@
 			input.type = "text";
 			input.name = `games[]`;
 			input.placeholder = "Game name";
-			counter++;
 +			inputwrapper.appendChild(input);
 		});
 

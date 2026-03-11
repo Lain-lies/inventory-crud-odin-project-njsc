@@ -16,22 +16,48 @@ async function fetchAllGames() {
 }
 
 async function fetchDevelopers() {
-	const { rows } = await pool.query("SELECT name FROM developers ORDER BY name;");
-    console.log(rows);
+	const { rows } = await pool.query(
+		"SELECT name FROM developers ORDER BY name;",
+	);
+	console.log(rows);
 	return rows;
 }
 
-async function isDevExist(value){
-    
-    const {rows} = await pool.query(
-    `
-        SELECT name FROM developers
-        WHERE name LIKE '$1';
-    `
-    , [value])
-    
-    return Object.keys(rows).length === 0 ? false : true;
-    
+async function isDevExist(value) {
+	console.log(value);
+	const { rows } = await pool.query(
+		`
+        SELECT id FROM developers
+        WHERE name LIKE $1;
+    `,
+		[value],
+	);
+	if (rows.length === 0) return {};
+
+	return rows[0];
 }
 
-module.exports = {fetchAllGames, fetchDevelopers, isDevExist};
+async function insertNewGame(devId, names) {
+	const formattedNames = names
+		.map((_, index) => `(\$${index + 2}, $1)`)
+		.join(",");
+	const values = [devId, ...names];
+	console.log(names);
+	console.log(values);
+
+	try {
+		await pool.query(
+			`
+			INSERT INTO games (name, developer_id)
+			VALUES ${formattedNames};`,
+			values,
+		);
+		console.log("SUCCESS: Record inserted successfully");
+		return true;
+	} catch (err) {
+		console.error("FAILURE: Record was not inserted.", err.message);
+		return false;
+	}
+}
+
+module.exports = { fetchAllGames, fetchDevelopers, isDevExist, insertNewGame };
